@@ -1,0 +1,1572 @@
+/* =========================================================
+   LAGOSTIM DE MZ
+   DIGITAL MENU — MENU PAGE
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.menu-page {
+  min-height: 100vh;
+  background: #f8f7f4;
+  color: #122033;
+  overflow-x: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.menu-header {
+  position: relative;
+  width: 100%;
+  min-height: 82px;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #071a2d;
+  z-index: 10;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.menu-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1;
+  transition: opacity 0.25s ease;
+}
+
+.menu-brand:hover {
+  opacity: 0.92;
+}
+
+.menu-brand img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(
+    0 4px 10px rgba(0, 0, 0, 0.28)
+  );
+}
+
+.menu-brand span {
+  display: block;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   WHATSAPP HEADER
+========================================================= */
+
+.menu-header-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 19px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.menu-header-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px rgba(37, 211, 102, 0.25);
+}
+
+
+/* =========================================================
+   HERO / INTRO
+========================================================= */
+
+.menu-intro {
+  position: relative;
+  min-height: 390px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  background-image:
+    url("https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=90");
+
+  background-size: cover;
+  background-position: center 55%;
+}
+
+.menu-intro-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 18, 32, 0.94) 0%,
+      rgba(3, 18, 32, 0.78) 42%,
+      rgba(3, 18, 32, 0.35) 100%
+    );
+}
+
+.menu-intro-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(700px, 90%);
+  margin-left: 8%;
+
+  color: #ffffff;
+}
+
+.menu-intro-label {
+  display: block;
+  margin-bottom: 13px;
+
+  color: #f08a4b;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+}
+
+.menu-intro h1 {
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  color: #ffffff;
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.menu-intro h1 span {
+  color: #e96720;
+}
+
+.menu-intro p {
+  max-width: 470px;
+  margin: 22px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   HERO BADGE
+========================================================= */
+
+.menu-intro-badge {
+  position: absolute;
+  right: 7%;
+  bottom: 35px;
+  z-index: 3;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  min-height: 48px;
+  padding: 0 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+
+  background: rgba(7, 26, 45, 0.62);
+
+  color: #ffffff;
+
+  backdrop-filter: blur(12px);
+}
+
+.menu-intro-badge span {
+  font-size: 1.2rem;
+}
+
+.menu-intro-badge strong {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.menu-content {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 60px 0 100px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.menu-search-wrapper {
+  position: relative;
+  width: min(650px, 100%);
+  margin: 0 auto 55px;
+}
+
+.menu-search-wrapper input {
+  width: 100%;
+  height: 60px;
+
+  padding: 0 55px 0 52px;
+
+  border: 1px solid #e3dfd8;
+  border-radius: 999px;
+
+  outline: none;
+
+  background: #ffffff;
+  color: #122033;
+
+  font-family: inherit;
+  font-size: 0.88rem;
+
+  box-shadow:
+    0 10px 30px rgba(22, 30, 40, 0.06);
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.menu-search-wrapper input:focus {
+  border-color: #e96720;
+
+  box-shadow:
+    0 12px 35px rgba(233, 103, 32, 0.12);
+}
+
+.menu-search-wrapper input::placeholder {
+  color: #9aa1a8;
+}
+
+.menu-search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  z-index: 2;
+
+  transform: translateY(-50%);
+
+  color: #7d858e;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.menu-search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  z-index: 2;
+
+  width: 36px;
+  height: 36px;
+
+  transform: translateY(-50%);
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f0eee9;
+  color: #53606d;
+
+  cursor: pointer;
+  font-size: 1.2rem;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.menu-search-clear:hover {
+  background: #e96720;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION
+========================================================= */
+
+.menu-category-section {
+  margin-bottom: 65px;
+}
+
+.menu-category-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 22px;
+}
+
+.menu-category-heading > div > span {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #e96720;
+
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.menu-category-heading h2 {
+  margin: 0;
+
+  color: #071a2d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.menu-category-heading p {
+  margin: 0;
+
+  color: #8994a3;
+  font-size: 0.76rem;
+}
+
+
+/* =========================================================
+   CATEGORY CARDS
+========================================================= */
+
+.menu-categories {
+  display: flex;
+  gap: 12px;
+
+  width: 100%;
+
+  overflow-x: auto;
+
+  padding: 5px 4px 14px;
+
+  scrollbar-width: none;
+
+  scroll-behavior: smooth;
+}
+
+.menu-categories::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* CARD */
+
+.category-card {
+  position: relative;
+
+  flex: 0 0 170px;
+
+  min-height: 92px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 13px 12px;
+
+  border: 1px solid rgba(7, 26, 45, 0.09);
+  border-radius: 17px;
+
+  background: #ffffff;
+  color: #071a2d;
+
+  cursor: pointer;
+
+  text-align: left;
+  font-family: inherit;
+
+  box-shadow:
+    0 7px 22px rgba(7, 26, 45, 0.045);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(233, 103, 32, 0.35);
+
+  box-shadow:
+    0 13px 30px rgba(7, 26, 45, 0.09);
+}
+
+
+/* ICON */
+
+.category-card-icon {
+  width: 47px;
+  height: 47px;
+
+  flex: 0 0 47px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fff3ec;
+
+  font-size: 1.35rem;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.category-card:hover .category-card-icon {
+  transform: scale(1.05);
+}
+
+
+/* TEXT */
+
+.category-card-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.category-card-text strong {
+  color: #071a2d;
+
+  font-size: 0.78rem;
+  font-weight: 900;
+
+  line-height: 1.2;
+}
+
+.category-card-text small {
+  color: #9aa1a8;
+
+  font-size: 0.62rem;
+  font-weight: 600;
+
+  line-height: 1.2;
+}
+
+
+/* ARROW */
+
+.category-card-arrow {
+  margin-left: auto;
+
+  color: #c0c5ca;
+
+  font-size: 1rem;
+  font-weight: 800;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+/* ACTIVE */
+
+.category-card.active {
+  border-color: #e96720;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e96720,
+      #d95614
+    );
+
+  box-shadow:
+    0 14px 32px rgba(233, 103, 32, 0.22);
+}
+
+.category-card.active .category-card-icon {
+  background: rgba(255, 255, 255, 0.17);
+}
+
+.category-card.active .category-card-text strong {
+  color: #ffffff;
+}
+
+.category-card.active .category-card-text small {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.category-card.active .category-card-arrow {
+  color: #ffffff;
+}
+
+.category-card.active:hover {
+  transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   RESULTS HEADER
+========================================================= */
+
+.menu-results-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 25px;
+}
+
+.menu-results-header > div > span {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #e96720;
+
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.menu-results-header h2 {
+  margin: 0;
+
+  color: #071a2d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.9rem;
+  font-weight: 400;
+}
+
+.menu-results-header p {
+  margin: 0;
+
+  color: #8994a3;
+
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   DISH GRID
+========================================================= */
+
+.menu-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 25px;
+}
+
+
+/* =========================================================
+   DISH CARD
+========================================================= */
+
+.menu-dish-card {
+  overflow: hidden;
+
+  border: 1px solid rgba(7, 26, 45, 0.08);
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 30px rgba(7, 26, 45, 0.06);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.menu-dish-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 18px 45px rgba(7, 26, 45, 0.12);
+}
+
+
+/* =========================================================
+   DISH IMAGE
+========================================================= */
+
+.menu-dish-image {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  background: #e9eef3;
+
+  text-decoration: none;
+}
+
+.menu-dish-image img {
+  display: block;
+
+  width: 100%;
+
+  aspect-ratio: 1.25 / 1;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.45s ease;
+}
+
+.menu-dish-card:hover
+.menu-dish-image img {
+  transform: scale(1.04);
+}
+
+
+/* FEATURED */
+
+.menu-dish-featured {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 29px;
+
+  padding: 0 11px;
+
+  border-radius: 999px;
+
+  background: #e96720;
+  color: #ffffff;
+
+  font-size: 0.58rem;
+  font-weight: 900;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* PLUS */
+
+.menu-dish-add {
+  position: absolute;
+
+  right: 14px;
+  bottom: 14px;
+
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #e96720;
+
+  font-size: 1.5rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.15);
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.menu-dish-add:hover {
+  background: #e96720;
+  color: #ffffff;
+
+  transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   DISH INFO
+========================================================= */
+
+.menu-dish-info {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 190px;
+
+  padding: 20px 20px 18px;
+
+  background: #ffffff;
+}
+
+.menu-dish-category {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #e96720;
+
+  font-size: 0.66rem;
+  font-weight: 900;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.menu-dish-info h3 {
+  margin: 0;
+
+  color: #071a2d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  line-height: 1.25;
+}
+
+.menu-dish-info p {
+  margin: 9px 0 16px;
+
+  color: #718096;
+
+  font-size: 0.82rem;
+  line-height: 1.55;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.menu-dish-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-top: auto;
+  padding-top: 15px;
+
+  border-top: 1px solid #eeeae4;
+}
+
+.menu-dish-bottom strong {
+  color: #e96720;
+
+  font-size: 1.08rem;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+.menu-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 38px;
+
+  padding: 0 12px;
+
+  border-radius: 10px;
+
+  background: #071a2d;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.menu-view-button:hover {
+  background: #e96720;
+
+  transform: translateY(-2px);
+}
+
+.menu-view-button span {
+  color: #e96720;
+
+  font-size: 1rem;
+
+  transition: color 0.2s ease;
+}
+
+.menu-view-button:hover span {
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.menu-empty {
+  max-width: 450px;
+
+  margin: 70px auto;
+
+  text-align: center;
+}
+
+.menu-empty-icon {
+  font-size: 45px;
+}
+
+.menu-empty h3 {
+  margin: 15px 0 8px;
+
+  color: #071a2d;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.menu-empty p {
+  color: #737c85;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.menu-empty button {
+  margin-top: 15px;
+
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 25px;
+
+  background: #e96720;
+  color: #ffffff;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   WHATSAPP SECTION
+========================================================= */
+
+.menu-whatsapp-section {
+  width: min(1200px, calc(100% - 40px));
+
+  margin: 0 auto 80px;
+
+  padding: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 35px;
+
+  border-radius: 25px;
+
+  background: #071a2d;
+
+  color: #ffffff;
+}
+
+.menu-whatsapp-section > div > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #e96720;
+
+  font-size: 0.66rem;
+  font-weight: 900;
+
+  letter-spacing: 0.15em;
+}
+
+.menu-whatsapp-section h2 {
+  margin: 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 34px;
+  font-weight: 400;
+}
+
+.menu-whatsapp-section p {
+  max-width: 500px;
+
+  margin: 12px 0 0;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.menu-whatsapp-section > a {
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 15px;
+
+  min-height: 50px;
+
+  padding: 0 22px;
+
+  border-radius: 30px;
+
+  background: #25d366;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.menu-whatsapp-section > a:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(37, 211, 102, 0.2);
+}
+
+.menu-whatsapp-section > a span {
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.menu-footer {
+  padding: 40px 5%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  background: #071a2d;
+  color: #ffffff;
+}
+
+.menu-footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-footer strong {
+  color: #ffffff;
+
+  font-size: 0.9rem;
+
+  letter-spacing: 0.1em;
+}
+
+.menu-footer span {
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 0.7rem;
+}
+
+.menu-footer a {
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.menu-footer a:hover {
+  color: #e96720;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .menu-content {
+    width: min(900px, calc(100% - 40px));
+  }
+
+  .menu-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .menu-intro-content {
+    margin-left: 6%;
+  }
+
+  .menu-intro-badge {
+    right: 5%;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .menu-header {
+    min-height: 70px;
+    padding: 0 20px;
+  }
+
+  .menu-brand {
+    gap: 8px;
+  }
+
+  .menu-brand img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .menu-brand span {
+    font-size: 0.88rem;
+  }
+
+  .menu-header-whatsapp {
+    min-height: 38px;
+    padding: 0 13px;
+
+    font-size: 0.68rem;
+  }
+
+
+  /* HERO */
+
+  .menu-intro {
+    min-height: 330px;
+
+    background-position:
+      60% center;
+  }
+
+  .menu-intro-overlay {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(3, 18, 32, 0.94),
+        rgba(3, 18, 32, 0.63)
+      );
+  }
+
+  .menu-intro-content {
+    width: calc(100% - 40px);
+    margin: 0 20px;
+  }
+
+  .menu-intro h1 {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+
+  .menu-intro p {
+    max-width: 330px;
+
+    font-size: 0.84rem;
+  }
+
+  .menu-intro-badge {
+    right: 20px;
+    bottom: 20px;
+
+    min-height: 42px;
+
+    padding: 0 13px;
+  }
+
+  .menu-intro-badge strong {
+    font-size: 0.62rem;
+  }
+
+
+  /* CONTENT */
+
+  .menu-content {
+    width: calc(100% - 32px);
+
+    padding:
+      40px 0 70px;
+  }
+
+
+  /* SEARCH */
+
+  .menu-search-wrapper {
+    margin-bottom: 42px;
+  }
+
+  .menu-search-wrapper input {
+    height: 54px;
+
+    padding:
+      0 50px 0 47px;
+
+    font-size: 0.82rem;
+  }
+
+
+  /* CATEGORY HEADING */
+
+  .menu-category-heading {
+    display: block;
+
+    margin-bottom: 18px;
+  }
+
+  .menu-category-heading h2 {
+    font-size: 1.35rem;
+  }
+
+  .menu-category-heading p {
+    margin-top: 7px;
+
+    font-size: 0.7rem;
+  }
+
+
+  /* CATEGORY CARDS */
+
+  .menu-categories {
+    gap: 9px;
+
+    margin-left: -8px;
+    margin-right: -8px;
+
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .category-card {
+    flex-basis: 155px;
+
+    min-height: 82px;
+
+    padding: 10px;
+  }
+
+  .category-card-icon {
+    width: 41px;
+    height: 41px;
+
+    flex-basis: 41px;
+
+    border-radius: 12px;
+
+    font-size: 1.15rem;
+  }
+
+  .category-card-text strong {
+    font-size: 0.72rem;
+  }
+
+  .category-card-text small {
+    font-size: 0.57rem;
+  }
+
+  .category-card-arrow {
+    font-size: 0.85rem;
+  }
+
+
+  /* RESULTS */
+
+  .menu-results-header {
+    align-items: flex-start;
+
+    margin-top: 45px;
+  }
+
+  .menu-results-header h2 {
+    font-size: 1.55rem;
+  }
+
+
+  /* GRID */
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .menu-dish-image img {
+    aspect-ratio: 1.25 / 1;
+  }
+
+  .menu-dish-info {
+    min-height: 175px;
+
+    padding: 17px;
+  }
+
+
+  /* WHATSAPP */
+
+  .menu-whatsapp-section {
+    width: calc(100% - 32px);
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin:
+      0 auto 55px;
+
+    padding:
+      35px 25px;
+
+    border-radius: 20px;
+  }
+
+  .menu-whatsapp-section h2 {
+    font-size: 29px;
+  }
+
+  .menu-whatsapp-section > a {
+    width: 100%;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+  }
+
+
+  /* FOOTER */
+
+  .menu-footer {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding:
+      30px 20px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .menu-header {
+    min-height: 66px;
+
+    padding:
+      0 16px;
+
+    gap: 10px;
+  }
+
+  .menu-brand {
+    gap: 7px;
+  }
+
+  .menu-brand img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menu-brand span {
+    font-size: 0.82rem;
+  }
+
+  .menu-header-whatsapp {
+    min-height: 36px;
+
+    padding: 0 11px;
+
+    font-size: 0.64rem;
+  }
+
+
+  /* HERO */
+
+  .menu-intro {
+    min-height: 315px;
+  }
+
+  .menu-intro-label {
+    font-size: 0.58rem;
+
+    letter-spacing:
+      0.22em;
+  }
+
+  .menu-intro h1 {
+    font-size: 2.65rem;
+  }
+
+  .menu-intro p {
+    max-width: 290px;
+
+    margin-top: 16px;
+
+    font-size: 0.78rem;
+  }
+
+  .menu-intro-badge {
+    right: 16px;
+    bottom: 16px;
+
+    min-height: 38px;
+
+    padding: 0 11px;
+  }
+
+  .menu-intro-badge span {
+    font-size: 1rem;
+  }
+
+  .menu-intro-badge strong {
+    font-size: 0.56rem;
+  }
+
+
+  /* CONTENT */
+
+  .menu-content {
+    width: calc(100% - 24px);
+
+    padding-top: 32px;
+  }
+
+
+  /* CATEGORY */
+
+  .category-card {
+    flex-basis: 145px;
+
+    min-height: 78px;
+
+    border-radius: 15px;
+  }
+
+  .category-card-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-basis: 38px;
+
+    font-size: 1.05rem;
+  }
+
+  .category-card-text strong {
+    font-size: 0.68rem;
+  }
+
+  .category-card-text small {
+    font-size: 0.54rem;
+  }
+
+  .category-card-arrow {
+    display: none;
+  }
+
+
+  /* RESULTS */
+
+  .menu-results-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .menu-results-header p {
+    font-size: 0.68rem;
+  }
+
+
+  /* DISH */
+
+  .menu-dish-info {
+    padding: 16px;
+  }
+
+  .menu-dish-info h3 {
+    font-size: 1.08rem;
+  }
+
+  .menu-dish-info p {
+    font-size: 0.78rem;
+  }
+
+  .menu-dish-bottom strong {
+    font-size: 1rem;
+  }
+
+  .menu-view-button {
+    min-height: 36px;
+
+    padding: 0 10px;
+
+    font-size: 0.65rem;
+  }
+
+
+  /* WHATSAPP */
+
+  .menu-whatsapp-section {
+    width: calc(100% - 24px);
+
+    padding:
+      30px 20px;
+  }
+
+  .menu-whatsapp-section h2 {
+    font-size: 25px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .menu-header {
+    padding:
+      0 12px;
+  }
+
+  .menu-brand img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .menu-brand span {
+    font-size: 0.76rem;
+  }
+
+  .menu-header-whatsapp {
+    padding:
+      0 9px;
+
+    font-size: 0.59rem;
+  }
+
+  .menu-intro {
+    min-height: 300px;
+  }
+
+  .menu-intro h1 {
+    font-size: 2.35rem;
+  }
+
+  .category-card {
+    flex-basis: 138px;
+  }
+
+}
