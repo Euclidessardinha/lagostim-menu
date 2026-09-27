@@ -674,6 +674,47 @@
     transform 0.45s ease;
 }
 
+/* =========================================================
+   INDISPONÍVEL — MARCA D'ÁGUA
+========================================================= */
+
+.menu-dish-card.unavailable .menu-dish-image img {
+  filter: grayscale(35%) brightness(0.68);
+}
+
+.menu-dish-card.unavailable .menu-dish-image::after {
+  content: "INDISPONÍVEL";
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+
+  transform: translate(-50%, -50%) rotate(-12deg);
+
+  width: 115%;
+  padding: 10px 0;
+
+  background: rgba(7, 26, 45, 0.78);
+  color: rgba(255, 255, 255, 0.92);
+
+  border-top: 2px solid rgba(255, 255, 255, 0.65);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.65);
+
+  text-align: center;
+
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+
+  pointer-events: none;
+}
+
+/* Produto disponível continua com aparência normal */
+.menu-dish-card:not(.unavailable) .menu-dish-image img {
+  filter: none;
+}
+
 .menu-dish-card:hover
 .menu-dish-image img {
   transform: scale(1.04);
@@ -1569,4 +1610,274 @@
     flex-basis: 138px;
   }
 
+}
+
+/* =========================================
+   HEADER ACTIONS
+========================================= */
+
+.menu-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-header-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+
+  color: white;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.menu-header-cart:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-header-cart-icon {
+  font-size: 16px;
+}
+
+.menu-header-cart strong {
+  min-width: 20px;
+  height: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 5px;
+
+  border-radius: 10px;
+
+  background: #f47b20;
+  color: white;
+
+  font-size: 10px;
+}
+
+/* =========================================
+   RESPONSIVE HEADER
+========================================= */
+
+@media (max-width: 600px) {
+
+  .menu-header-actions {
+    gap: 6px;
+  }
+
+  .menu-header-cart {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .menu-header-cart span:nth-child(2) {
+    display: none;
+  }
+
+  .menu-header-whatsapp {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   ADICIONADO AO PEDIDO
+========================================= */
+
+.menu-dish-add.added {
+  background: #168a45;
+  color: white;
+  transform: scale(1.08);
+}
+
+.menu-dish-added-message {
+  position: absolute;
+
+  left: 14px;
+  bottom: 14px;
+
+  padding: 7px 11px;
+
+  border-radius: 8px;
+
+  background: rgba(22, 138, 69, 0.95);
+  color: white;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+
+  animation: menuAddedMessage 0.2s ease-out;
+}
+
+@keyframes menuAddedMessage {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   CART NOTICE
+========================================= */
+
+.menu-cart-notice {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  width: min(1180px, calc(100% - 40px));
+
+  margin: 14px auto 0;
+
+  padding: 12px 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  background: white;
+
+  border: 1px solid #e3e8ec;
+  border-radius: 12px;
+
+  box-shadow: 0 8px 25px rgba(16, 36, 62, 0.08);
+
+  animation: menuCartNoticeIn 0.25s ease-out;
+}
+
+.menu-cart-notice-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-cart-notice-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #eaf8ef;
+  color: #168a45;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.menu-cart-notice-content div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-cart-notice-content strong {
+  color: #172b45;
+  font-size: 13px;
+}
+
+.menu-cart-notice-content span {
+  color: #7d8792;
+  font-size: 11px;
+}
+
+.menu-cart-notice-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 13px;
+
+  border-radius: 8px;
+
+  background: #f47b20;
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  transition: 0.2s ease;
+}
+
+.menu-cart-notice-button:hover {
+  background: #d96312;
+  transform: translateY(-1px);
+}
+
+.menu-cart-notice-button span {
+  font-size: 15px;
+}
+
+@keyframes menuCartNoticeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .menu-cart-notice {
+    width: calc(100% - 28px);
+
+    padding: 10px 11px;
+
+    gap: 8px;
+  }
+
+  .menu-cart-notice-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .menu-cart-notice-content strong {
+    font-size: 12px;
+  }
+
+  .menu-cart-notice-content span {
+    font-size: 10px;
+  }
+
+  .menu-cart-notice-button {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
 }

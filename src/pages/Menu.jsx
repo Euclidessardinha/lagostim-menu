@@ -1,10 +1,71 @@
-import { useMemo, useState } from "react";
-import { categories, menuItems } from "../data/menuData";
+
+import { useEffect, useMemo, useState } from "react";
+import { addToCart, getCart } from "../utils/cart";
+import { supabase } from "../lib/supabase";
+
 import "./Menu.css";
 
 function Menu() {
   const [activeCategory, setActiveCategory] = useState("todos");
   const [search, setSearch] = useState("");
+  const [cartCount, setCartCount] = useState(0);
+  const [addedItemId, setAddedItemId] = useState(null);
+  const [showCartNotice, setShowCartNotice] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const cart = getCart();
+
+    const count = cart.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+
+    setCartCount(count);
+  }, []);
+
+  useEffect(() => {
+    const loadMenu = async () => {
+      setLoading(true);
+
+      const categoriesResult = await supabase
+        .from("categories")
+        .select("*")
+        .order("name");
+
+      const productsResult = await supabase
+        .from("products")
+        .select("*")
+        .order("name");
+
+      console.log("CATEGORIAS:", categoriesResult);
+      console.log("PRODUTOS:", productsResult);
+
+      if (categoriesResult.error) {
+        console.error(
+          "Erro ao carregar categorias:",
+          categoriesResult.error
+        );
+      }
+
+      if (productsResult.error) {
+        console.error(
+          "Erro ao carregar produtos:",
+          productsResult.error
+        );
+      }
+
+      setCategories(categoriesResult.data || []);
+      setMenuItems(productsResult.data || []);
+
+      setLoading(false);
+    };
+
+    loadMenu();
+  }, []);
 
   const whatsappNumber = "258871538162";
 
@@ -15,7 +76,34 @@ function Menu() {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   const formatPrice = (price) => {
-    return `${price.toLocaleString("pt-MZ")} MT`;
+    if (price === null || price === undefined) {
+      return "Preço não definido";
+    }
+
+    return `${Number(price).toLocaleString("pt-MZ")} MT`;
+  };
+
+  const handleAddToCart = (item) => {
+    // Não permite adicionar pratos indisponíveis
+    if (!item.available) {
+      return;
+    }
+
+    const updatedCart = addToCart(item, 1);
+
+    const count = updatedCart.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+
+    setCartCount(count);
+
+    setAddedItemId(item.id);
+    setShowCartNotice(true);
+
+    setTimeout(() => {
+      setAddedItemId(null);
+    }, 1500);
   };
 
   const getCategoryName = (categoryId) => {
@@ -28,22 +116,22 @@ function Menu() {
 
   const filteredItems = useMemo(() => {
     return menuItems.filter((item) => {
-      if (!item.available) return false;
-
       const matchesCategory =
         activeCategory === "todos" ||
-        item.category === activeCategory;
+        item.category_id === activeCategory;
 
       const searchText = search.toLowerCase().trim();
 
       const matchesSearch =
         !searchText ||
         item.name.toLowerCase().includes(searchText) ||
-        item.description.toLowerCase().includes(searchText);
+        (item.description || "")
+          .toLowerCase()
+          .includes(searchText);
 
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, search]);
+  }, [menuItems, activeCategory, search]);
 
   return (
     <div className="menu-page">
@@ -62,16 +150,79 @@ function Menu() {
           <span>Lagostim de MZ</span>
         </a>
 
-        <a
-          href={whatsappUrl}
-          className="menu-header-whatsapp"
-          target="_blank"
-          rel="noreferrer"
-        >
-          WhatsApp
-        </a>
+        <div className="menu-header-actions">
+
+          <a
+            href="/cart"
+            className="menu-header-cart"
+          >
+            <span className="menu-header-cart-icon">
+              🛒
+            </span>
+
+            <span>
+              Carrinho
+            </span>
+
+            {cartCount > 0 && (
+              <strong>
+                {cartCount}
+              </strong>
+            )}
+          </a>
+
+          <a
+            href={whatsappUrl}
+            className="menu-header-whatsapp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+
+        </div>
 
       </header>
+
+
+      {/* =========================
+          AVISO DO CARRINHO
+      ========================= */}
+      {showCartNotice && cartCount > 0 && (
+        <div className="menu-cart-notice">
+
+          <div className="menu-cart-notice-content">
+
+            <span className="menu-cart-notice-icon">
+              ✓
+            </span>
+
+            <div>
+              <strong>
+                Pedido atualizado
+              </strong>
+
+              <span>
+                {cartCount}{" "}
+                {cartCount === 1
+                  ? "item"
+                  : "itens"}{" "}
+                no carrinho
+              </span>
+            </div>
+
+          </div>
+
+          <a
+            href="/cart"
+            className="menu-cart-notice-button"
+          >
+            Ver carrinho
+            <span>→</span>
+          </a>
+
+        </div>
+      )}
 
 
       {/* =========================
@@ -148,8 +299,11 @@ function Menu() {
         <section className="menu-category-section">
 
           <div className="menu-category-heading">
+
             <div>
-              <span>EXPLORE</span>
+              <span>
+                EXPLORE
+              </span>
 
               <h2>
                 Escolha uma categoria
@@ -159,6 +313,7 @@ function Menu() {
             <p>
               Encontre o seu sabor favorito
             </p>
+
           </div>
 
 
@@ -182,10 +337,15 @@ function Menu() {
               </span>
 
               <span className="category-card-text">
-                <strong>Todos</strong>
+
+                <strong>
+                  Todos
+                </strong>
+
                 <small>
                   Ver tudo
                 </small>
+
               </span>
 
               <span className="category-card-arrow">
@@ -216,6 +376,7 @@ function Menu() {
                 </span>
 
                 <span className="category-card-text">
+
                   <strong>
                     {category.name}
                   </strong>
@@ -223,6 +384,7 @@ function Menu() {
                   <small>
                     Explorar
                   </small>
+
                 </span>
 
                 <span className="category-card-arrow">
@@ -245,7 +407,9 @@ function Menu() {
 
           <div>
 
-            <span>MENU</span>
+            <span>
+              MENU
+            </span>
 
             <h2>
               {activeCategory === "todos"
@@ -275,7 +439,11 @@ function Menu() {
             {filteredItems.map((item) => (
 
               <article
-                className="menu-dish-card"
+                className={`menu-dish-card ${
+                  !item.available
+                    ? "unavailable"
+                    : ""
+                }`}
                 key={item.id}
               >
 
@@ -296,12 +464,38 @@ function Menu() {
                     </span>
                   )}
 
-                  <span
-                    className="menu-dish-add"
-                    aria-hidden="true"
-                  >
-                    +
-                  </span>
+                  {!item.available && (
+                    <span className="menu-dish-unavailable">
+                      Indisponível
+                    </span>
+                  )}
+
+                  {item.available && (
+                    <button
+                      type="button"
+                      className={`menu-dish-add ${
+                        addedItemId === item.id
+                          ? "added"
+                          : ""
+                      }`}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        handleAddToCart(item);
+                      }}
+                      aria-label={`Adicionar ${item.name} ao pedido`}
+                    >
+                      {addedItemId === item.id
+                        ? "✓"
+                        : "+"}
+                    </button>
+                  )}
+
+                  {addedItemId === item.id && (
+                    <span className="menu-dish-added-message">
+                      Adicionado ao pedido
+                    </span>
+                  )}
 
                 </a>
 
@@ -309,7 +503,7 @@ function Menu() {
                 <div className="menu-dish-info">
 
                   <span className="menu-dish-category">
-                    {getCategoryName(item.category)}
+                    {getCategoryName(item.category_id)}
                   </span>
 
                   <h3>
@@ -317,7 +511,8 @@ function Menu() {
                   </h3>
 
                   <p>
-                    {item.description}
+                    {item.description ||
+                      "Descrição não disponível."}
                   </p>
 
 

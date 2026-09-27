@@ -1,26 +1,100 @@
-import { categories, getItemById } from "../data/menuData";
+
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
+import { addToCart } from "../utils/cart";
+
+
 import "./DishDetails.css";
 
 function DishDetails() {
+
+  const [quantity, setQuantity] = useState(1);
+  const [item, setItem] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const pathParts = window.location.pathname
     .split("/")
     .filter(Boolean);
 
   const itemId = pathParts[pathParts.length - 1];
 
-  const item = getItemById(itemId);
+  useEffect(() => {
+    const loadDish = async () => {
+      setLoading(true);
+
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", itemId)
+        .eq("available", true)
+        .maybeSingle();
+
+      if (error) {
+        console.error(
+          "Erro ao carregar prato:",
+          error
+        );
+
+        setItem(null);
+        setLoading(false);
+        return;
+      }
+
+      if (!product) {
+        setItem(null);
+        setLoading(false);
+        return;
+      }
+
+      setItem(product);
+
+      const { data: categoryData, error: categoryError } =
+        await supabase
+          .from("categories")
+          .select("*")
+          .eq("id", product.category_id)
+          .maybeSingle();
+
+      if (categoryError) {
+        console.error(
+          "Erro ao carregar categoria:",
+          categoryError
+        );
+      }
+
+      setCategory(categoryData || null);
+      setLoading(false);
+    };
+
+    loadDish();
+  }, [itemId]);
 
   const formatPrice = (price) => {
     return `${price.toLocaleString("pt-MZ")} MT`;
   };
 
-  const getCategoryName = (categoryId) => {
-    const category = categories.find(
-      (category) => category.id === categoryId
-    );
+  const handleAddToCart = () => {
+    addToCart(item, quantity);
 
-    return category?.name || "Menu";
+    window.location.href = "/cart";
   };
+
+
+  if (loading) {
+    return (
+      <div className="dish-details-page">
+        <div className="dish-not-found">
+          <h1>Carregando prato...</h1>
+
+          <p>
+            Aguarde enquanto carregamos os detalhes.
+          </p>
+        </div>
+      </div>
+    );
+  }
+  
 
   if (!item) {
     return (
@@ -52,12 +126,7 @@ function DishDetails() {
     ? item.ingredients
     : ["Ingredientes a consultar"];
 
-  const whatsappMessage = encodeURIComponent(
-    `Olá! Gostaria de pedir o prato "${item.name}" que está no menu do Lagostim de MZ.`
-  );
-
-  const whatsappUrl =
-    `https://wa.me/258871538162?text=${whatsappMessage}`;
+  
 
   return (
     <div className="dish-details-page">
@@ -81,7 +150,7 @@ function DishDetails() {
           </span>
         </a>
 
-        <a
+        {/*<a
           href={whatsappUrl}
           className="dish-header-whatsapp"
           target="_blank"
@@ -89,7 +158,7 @@ function DishDetails() {
         >
           <span>◉</span>
           WhatsApp
-        </a>
+        </a>*/}
 
       </header>
 
@@ -135,7 +204,7 @@ function DishDetails() {
           <div className="dish-details-info">
 
             <span className="dish-details-category">
-              {getCategoryName(item.category)}
+              {category?.name || "Menu"}
             </span>
 
             <h1>
@@ -162,7 +231,7 @@ function DishDetails() {
                   </small>
 
                   <strong>
-                    {item.preparationTime ||
+                    {item.preparation_time ||
                       "A consultar"}
                   </strong>
                 </div>
@@ -262,34 +331,36 @@ function DishDetails() {
 
             {/* WHATSAPP */}
             {item.available && (
-              <a
-                href={whatsappUrl}
+              <button
+                type="button"
                 className="dish-whatsapp-button"
-                target="_blank"
-                rel="noreferrer"
+                onClick={handleAddToCart}
               >
 
-                <span className="whatsapp-icon">
-                  ◉
-                </span>
+              <span className="whatsapp-icon">
+                🛒
+              </span>
 
-                <span>
+              
 
-                  <small>
-                    FAÇA O SEU PEDIDO
-                  </small>
+              <span>
 
-                  <strong>
-                    Pedir pelo WhatsApp
-                  </strong>
+                <small>
+                  FAÇA O SEU PEDIDO
+                </small>
 
-                </span>
 
-                <span className="whatsapp-arrow">
-                  →
-                </span>
+                <strong>
+                  Adicionar ao pedido
+                </strong>
 
-              </a>
+              </span>
+
+              <span className="whatsapp-arrow">
+                →
+              </span>
+
+              </button>
             )}
 
           </div>
