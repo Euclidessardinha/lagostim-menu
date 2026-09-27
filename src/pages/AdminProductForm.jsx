@@ -355,7 +355,6 @@ setError(
   <input
     type="file"
     accept="image/*"
-    capture="environment"
     onChange={(event) => {
       const file = event.target.files?.[0];
 
