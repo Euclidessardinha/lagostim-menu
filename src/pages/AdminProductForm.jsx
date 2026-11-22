@@ -305,6 +305,8 @@ setError(
               onChange={(event) =>
                 setPrice(event.target.value)
               }
+
+              required
               
             />
 
