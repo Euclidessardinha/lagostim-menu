@@ -1,10 +1,11 @@
+
 import { useEffect, useState } from "react";
+
 import {
   getCart,
   updateCartItemQuantity,
   removeFromCart,
   clearCart,
-  getCartTotal,
 } from "../utils/cart";
 
 import "./Cart.css";
@@ -16,10 +17,12 @@ function Cart() {
     setCart(getCart());
   }, []);
 
+  // Formatar preços em Meticais
   const formatPrice = (price) => {
-    return `${price.toLocaleString("pt-MZ")} MT`;
+    return `${Number(price || 0).toLocaleString("pt-MZ")} MT`;
   };
 
+  // Atualizar quantidade
   const handleIncrease = (item) => {
     const updatedCart = updateCartItemQuantity(
       item.id,
@@ -38,39 +41,45 @@ function Cart() {
     setCart(updatedCart);
   };
 
+  // Remover produto
   const handleRemove = (itemId) => {
     const updatedCart = removeFromCart(itemId);
-
     setCart(updatedCart);
   };
 
+  // Limpar carrinho
   const handleClearCart = () => {
     clearCart();
-
     setCart([]);
   };
 
-  const total = getCartTotal();
-
-  const itemCount = cart.reduce(
-    (sum, item) => sum + item.quantity,
+  // Valores calculados a partir do estado atual
+  const total = cart.reduce(
+    (sum, item) =>
+      sum + Number(item.price || 0) * Number(item.quantity || 0),
     0
   );
 
+  const itemCount = cart.reduce(
+    (sum, item) => sum + Number(item.quantity || 0),
+    0
+  );
+
+  // Finalizar pedido pelo WhatsApp
   const handleWhatsApp = () => {
-  if (!cart.length) return;
+    if (!cart.length) return;
 
-  const orderLines = cart
-    .map(
-      (item) =>
-        `${item.quantity}x ${item.name} — ${formatPrice(
-          item.price * item.quantity
-        )}`
-    )
-    .join("\n");
+    const orderLines = cart
+      .map(
+        (item) =>
+          `${item.quantity}x ${item.name} — ${formatPrice(
+            item.price * item.quantity
+          )}`
+      )
+      .join("\n");
 
-  const message = encodeURIComponent(
-    `🍽️ PEDIDO — LAGOSTIM DE MZ
+    const message = encodeURIComponent(
+      `🍽️ PEDIDO — LAGOSTIM DE MZ
 
 Olá! Gostaria de fazer o seguinte pedido:
 
@@ -83,56 +92,40 @@ TOTAL: ${formatPrice(total)}
 Gostaria de confirmar este pedido.
 
 Obrigado!`
-  );
+    );
 
-  window.open(
-    `https://wa.me/258871538162?text=${message}`,
-    "_blank"
-  );
-};
+    const whatsappUrl = `https://wa.me/258871538162?text=${message}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <div className="cart-page">
 
-      {/* =========================
-          HEADER
-      ========================= */}
+      {/* HEADER */}
 
       <header className="cart-header">
 
-        <a
-          href="/"
-          className="cart-brand"
-        >
+        <a href="/" className="cart-brand">
           <img
             src="/logo-lagostim.png"
-            alt="Lagostim de MZ"
+            alt="Logótipo Lagostim de MZ"
           />
 
           <div>
-            <strong>
-              Lagostim de MZ
-            </strong>
-
-            <span>
-              Menu Digital
-            </span>
+            <strong>Lagostim de MZ</strong>
+            <span>Menu Digital</span>
           </div>
         </a>
 
-        <a
-          href="/menu"
-          className="cart-back-menu"
-        >
-          ← Continuar a ver o menu
+        <a href="/menu" className="cart-back-menu">
+          <span aria-hidden="true">←</span>
+          Continuar a ver o menu
         </a>
 
       </header>
 
-
-      {/* =========================
-          MAIN
-      ========================= */}
+      {/* MAIN */}
 
       <main className="cart-main">
 
@@ -142,255 +135,246 @@ Obrigado!`
 
           <div className="cart-title">
 
-            <span>
+            <span className="cart-eyebrow">
               O seu pedido
             </span>
 
-            <h1>
-              Meu Carrinho
-            </h1>
+            <h1>Meu Carrinho</h1>
 
             {cart.length > 0 && (
               <p>
                 {itemCount}{" "}
-                {itemCount === 1
-                  ? "item"
-                  : "itens"}{" "}
-                selecionado
-                {itemCount === 1
-                  ? ""
-                  : "s"}
+                {itemCount === 1 ? "item selecionado" : "itens selecionados"}
               </p>
             )}
 
           </div>
 
-
-          {/* =========================
-              EMPTY
-          ========================= */}
+          {/* EMPTY CART */}
 
           {cart.length === 0 ? (
 
-            <div className="cart-empty">
+            <section className="cart-empty">
 
               <div className="cart-empty-icon">
-                🛒
+                <span>🛒</span>
               </div>
 
-              <h2>
-                O seu carrinho está vazio
-              </h2>
+              <span className="cart-empty-label">
+                AINDA NÃO ESCOLHEU NADA?
+              </span>
+
+              <h2>O seu carrinho está vazio</h2>
 
               <p>
-                Explore o nosso menu e escolha
-                os seus pratos favoritos.
+                Os melhores sabores estão à sua espera.
+                Explore o nosso menu e escolha os seus pratos favoritos.
               </p>
 
-              <a
-                href="/menu"
-                className="cart-empty-button"
-              >
-                Ver o menu
+              <a href="/menu" className="cart-empty-button">
+                Explorar o menu
+                <span aria-hidden="true">→</span>
               </a>
 
-            </div>
+            </section>
 
           ) : (
 
             <div className="cart-layout">
 
-              {/* =========================
-                  ITEMS
-              ========================= */}
+              {/* CART ITEMS */}
 
-              <section className="cart-items">
+              <section className="cart-items-section">
 
-                {cart.map((item) => (
+                <div className="cart-items-heading">
+                  <div>
+                    <span>SELEÇÃO</span>
+                    <h2>Os seus pratos</h2>
+                  </div>
 
-                  <article
-                    key={item.id}
-                    className="cart-item"
-                  >
+                  <span className="cart-items-count">
+                    {itemCount} {itemCount === 1 ? "item" : "itens"}
+                  </span>
+                </div>
 
-                    <div className="cart-item-image">
+                <div className="cart-items">
 
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                      />
+                  {cart.map((item) => (
 
-                    </div>
+                    <article
+                      key={item.id}
+                      className="cart-item"
+                    >
 
+                      <div className="cart-item-image">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          loading="lazy"
+                        />
+                      </div>
 
-                    <div className="cart-item-info">
+                      <div className="cart-item-info">
 
-                      <h2>
-                        {item.name}
-                      </h2>
+                        <div className="cart-item-details">
+                          <h2>{item.name}</h2>
 
-                      <span className="cart-item-price">
-                        {formatPrice(item.price)}
-                      </span>
+                          <span className="cart-item-price">
+                            {formatPrice(item.price)}{" "}
+                            <span className="cart-price-unit">/ unidade</span>
+                          </span>
+                        </div>
 
+                        <div className="cart-item-bottom">
 
-                      <div className="cart-item-bottom">
-
-                        <div className="cart-quantity">
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleDecrease(item)
-                            }
+                          <div
+                            className="cart-quantity"
+                            aria-label={`Quantidade de ${item.name}`}
                           >
-                            −
-                          </button>
 
-                          <strong>
-                            {item.quantity}
+                            <button
+                              type="button"
+                              onClick={() => handleDecrease(item)}
+                              aria-label={`Diminuir quantidade de ${item.name}`}
+                            >
+                              −
+                            </button>
+
+                            <strong>{item.quantity}</strong>
+
+                            <button
+                              type="button"
+                              onClick={() => handleIncrease(item)}
+                              aria-label={`Aumentar quantidade de ${item.name}`}
+                            >
+                              +
+                            </button>
+
+                          </div>
+
+                          <strong className="cart-item-total">
+                            {formatPrice(item.price * item.quantity)}
                           </strong>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleIncrease(item)
-                            }
-                          >
-                            +
-                          </button>
 
                         </div>
 
-                        <strong className="cart-item-total">
-                          {formatPrice(
-                            item.price *
-                              item.quantity
-                          )}
-                        </strong>
-
                       </div>
 
-                    </div>
+                      <button
+                        type="button"
+                        className="cart-remove"
+                        onClick={() => handleRemove(item.id)}
+                        aria-label={`Remover ${item.name} do carrinho`}
+                        title="Remover produto"
+                      >
+                        ×
+                      </button>
 
+                    </article>
 
-                    <button
-                      type="button"
-                      className="cart-remove"
-                      onClick={() =>
-                        handleRemove(item.id)
-                      }
-                      aria-label={`Remover ${item.name}`}
-                    >
-                      ×
-                    </button>
+                  ))}
 
-                  </article>
+                </div>
 
-                ))}
+                <div className="cart-items-footer">
 
+                  <a href="/menu" className="cart-continue-link">
+                    <span aria-hidden="true">←</span>
+                    Adicionar mais pratos
+                  </a>
 
-                <button
-                  type="button"
-                  className="cart-clear"
-                  onClick={handleClearCart}
-                >
-                  Limpar pedido
-                </button>
+                  <button
+                    type="button"
+                    className="cart-clear"
+                    onClick={handleClearCart}
+                  >
+                    Limpar pedido
+                  </button>
+
+                </div>
 
               </section>
 
-
-              {/* =========================
-                  SUMMARY
-              ========================= */}
+              {/* ORDER SUMMARY */}
 
               <aside className="cart-summary">
 
                 <div className="cart-summary-header">
 
-                  <span>
-                    Resumo
-                  </span>
+                  <span>RESUMO DO PEDIDO</span>
 
-                  <h2>
-                    Seu pedido
-                  </h2>
+                  <h2>Detalhes da compra</h2>
+
+                  <p>
+                    Confira o seu pedido antes de finalizar.
+                  </p>
 
                 </div>
-
 
                 <div className="cart-summary-lines">
 
                   <div>
                     <span>
-                      Subtotal
+                      Produtos ({itemCount})
                     </span>
 
-                    <strong>
-                      {formatPrice(total)}
-                    </strong>
+                    <strong>{formatPrice(total)}</strong>
                   </div>
 
                   <div>
-                    <span>
-                      Taxa de entrega
-                    </span>
-
-                    <strong>
+                    <span>Taxa de entrega</span>
+                    <strong className="cart-delivery-value">
                       A combinar
                     </strong>
                   </div>
 
                 </div>
 
-
                 <div className="cart-summary-total">
 
-                  <span>
-                    Total
-                  </span>
+                  <div>
+                    <span>Total dos produtos</span>
+                    <small>Em Meticais (MT)</small>
+                  </div>
 
-                  <strong>
-                    {formatPrice(total)}
-                  </strong>
+                  <strong>{formatPrice(total)}</strong>
 
                 </div>
-
 
                 <button
                   type="button"
                   className="cart-whatsapp-button"
                   onClick={handleWhatsApp}
+                  disabled={!cart.length}
                 >
 
-                  <span>
+                  <span className="cart-whatsapp-icon">
                     ◉
                   </span>
 
                   <div>
-
-                    <small>
-                      FINALIZAR PEDIDO
-                    </small>
-
-                    <strong>
-                      Pedir pelo WhatsApp
-                    </strong>
-
+                    <small>FINALIZAR PEDIDO</small>
+                    <strong>Pedir pelo WhatsApp</strong>
                   </div>
 
-                  <span>
+                  <span className="cart-whatsapp-arrow">
                     →
                   </span>
 
                 </button>
 
+                <div className="cart-secure-note">
+                  <span>✓</span>
+                  <p>
+                    O seu pedido será enviado diretamente
+                    para o WhatsApp do Lagostim de MZ.
+                  </p>
+                </div>
 
-                <p className="cart-note">
-                  O pedido será enviado pelo
-                  WhatsApp do Lagostim de MZ.
-                </p>
+                <div className="cart-summary-footer">
+                  <span>🍽️</span>
+                  <p>Obrigado por escolher o Lagostim de MZ!</p>
+                </div>
 
               </aside>
 
@@ -402,18 +386,13 @@ Obrigado!`
 
       </main>
 
-
-      {/* =========================
-          FOOTER
-      ========================= */}
+      {/* FOOTER */}
 
       <footer className="cart-footer">
 
-        <div>
+        <div className="cart-footer-brand">
 
-          <strong>
-            LAGOSTIM DE MZ
-          </strong>
+          <strong>LAGOSTIM DE MZ</strong>
 
           <span>
             O sabor do mar à sua mesa.
@@ -422,7 +401,8 @@ Obrigado!`
         </div>
 
         <a href="/menu">
-          Ver menu completo →
+          Ver menu completo
+          <span aria-hidden="true">→</span>
         </a>
 
       </footer>
